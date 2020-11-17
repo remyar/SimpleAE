@@ -29,6 +29,8 @@ jobs:
           pip install platformio     
       - name: Generate build number
         uses: einaregilsson/build-number@v2 
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           token: ${{secrets.github_token}}
       - name: Get current time
@@ -41,8 +43,11 @@ jobs:
         env:
           TIME: "${{ steps.current-time.outputs.time }}"
           F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: echo $TIME $F_TIME
       - name: Print new build number
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: | 
           echo "Build number is $BUILD_NUMBER"
           echo ::set-env name=RELEASE_VERSION::v1.0.${BUILD_NUMBER}
