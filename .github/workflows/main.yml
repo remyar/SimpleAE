@@ -51,7 +51,7 @@ jobs:
         run: | 
           echo "Build number is $BUILD_NUMBER"
           echo ::set-env name=RELEASE_VERSION::v1.0.${BUILD_NUMBER}
-          echo ::set-env name=SIMPLEAE_FIRMWARE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.bin
+          echo ::set-env name=SIMPLEAE_FIRMWARE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.hex
       - name: Run PlatformIO for SimpleAE 
         run: |
           cd ./SOFT_ARDUINO/
@@ -60,7 +60,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.bin
+          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
           tag: ${{ env.RELEASE_VERSION }}
           asset_name: ${{ env.SIMPLEAE_FIRMWARE_NAME }}
           overwrite: true
