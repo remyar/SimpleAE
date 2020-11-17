@@ -29,7 +29,7 @@ bool SPARK_Run(uint32_t D , uint32_t T)
     {
         milli_delay = ((D / 1000) - 2); //Pour ces D longs, delayMicroseconds(D)ne va plus.
         micro_delay = (D - (milli_delay * 1000));
-        delay(milli_delay); //
+        delayMilliseconds(milli_delay); //
         delayMicroseconds(micro_delay);
     }
 

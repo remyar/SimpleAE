@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="./vendor/bootstrap-4.5.3-dist/css/bootstrap.css" />
+
+    <script>window.$ = window.jQuery = require('jquery');</script>
+    <script>require('popper.js');</script>
+    <script>require('bootstrap');</script>
+    <script>var CanvasJS = require('./vendor/canvasjs-3.2/canvasjs.min.js');</script>
+    <script src="./vendor/canvasjs-3.2/jquery.canvasjs.min.js"></script>
+    <script src="./vendor/canvas-gauges-master/gauge.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm" style="text-align: center;">
+                <canvas id="rpmEngine"></canvas>
+            </div>
+            <div class="col-sm" style="text-align: center;">
+                <canvas id="advanceSpark"></canvas>
+            </div>
+            <div class="col-sm" style="text-align: center;">
+                <canvas id="dwell"></canvas>
+            </div>
+        </div>    
+
+    </div>
+
+</body>
+<script src="./app.js"></script>
+
+</html>

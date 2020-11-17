@@ -56,6 +56,13 @@ static void _InitClocks(void)
 {
 }
 
+void delayMilliseconds(uint16_t _ms)
+{
+    for (uint16_t i = 0; i < _ms; i++)
+    {
+        delayMicroseconds(1000);
+    }
+}
 //--------------------------------------------------------------------------------------------------
 // FONCTION    : _InitGpio
 //

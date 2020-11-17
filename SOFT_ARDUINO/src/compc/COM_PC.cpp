@@ -4,13 +4,40 @@
 #include <CircularBuffer.h>
 
 CircularBuffer<uint8_t, 64> bufferTx;
+static unsigned long _ms = millis();
 
-void _putString(String str)
+template <class T>
+int _writeAnything(const T &value)
 {
-    for (int i = 0; i < str.length(); i++)
+    const uint8_t *p = (const uint8_t *)(const void *)&value;
+    p += sizeof(value) - 1;
+    uint8_t i;
+    for (i = 0; i < sizeof(value); i++)
+        bufferTx.push(*p--);
+    return i;
+}
+
+void _putString(String val)
+{
+    for (uint16_t i = 0; i < val.length(); i++)
     {
-        bufferTx.push(str[i]);
+        _writeAnything((uint8_t)val[i]);
     }
+}
+
+void _putUint8(uint8_t val)
+{
+    _writeAnything(val);
+}
+
+void _putUint16(uint16_t val)
+{
+    _writeAnything(val);
+}
+
+void _putUint32(uint32_t val)
+{
+    _writeAnything(val);
 }
 
 void COMPC_TaskInit(void)
@@ -20,21 +47,18 @@ void COMPC_TaskInit(void)
 
 void COMPC_TaskRun(void)
 {
+    if ((millis() - _ms) >= 50)
+    {
+        _putUint16(15);
+        _putUint8(0);
+        _putUint32(0);  //-- rpm engine
+        _putUint32(8);  //-- advance
+        _putUint32(56); //-- dwell
+        _ms = millis();
+    }
+
     if (SERIAL_Available())
     {
-        switch (SERIAL_Getc())
-        {
-        case ('Q'):
-        {
-            _putString("simpleae");
-            break;
-        }
-        case ('F'): // send serial protocol version
-        {
-            _putString("001");
-            break;
-        }
-        }
     }
 
     if (bufferTx.size() > 0)
