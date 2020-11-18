@@ -113,4 +113,5 @@ jobs:
         with:
           release: true
           app_root: ./SOFT_PC/
+          package_root: ./SOFT_PC/
           github_token: ${{ secrets.github_token }}
