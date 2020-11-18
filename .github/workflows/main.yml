@@ -112,4 +112,5 @@ jobs:
         uses: samuelmeuli/action-electron-builder@v1
         with:
           release: true
+          application_root: ./SOFT_PC/
           github_token: ${{ secrets.github_token }}
