@@ -21,6 +21,13 @@
         "directories": {
             "output": "build"
         },
+        "publish": [
+            {
+                "owner": "WesterosCraftCode",
+                "repo": "ElectronLauncher",
+                "provider": "github"
+            }
+        ],
         "win": {
             "icon": "res/icons/kicad_tools.ico",
             "publish": [
