@@ -23,9 +23,9 @@
         },
         "publish": [
             {
-                "owner": "WesterosCraftCode",
-                "repo": "ElectronLauncher",
-                "provider": "github"
+              "provider": "github",
+              "releaseType": "release",
+              "publishAutoUpdate": true
             }
         ],
         "win": {
