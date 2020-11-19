@@ -49,4 +49,9 @@ window.onload = async () => {
         units: "",
         //title: "",
     }));
+
+    $('#loader').hide(500);
+    $('#appRoot').show(500,()=>{
+        chart.redraw();
+    });
 }

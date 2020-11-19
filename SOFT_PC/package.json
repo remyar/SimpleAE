@@ -37,7 +37,7 @@
                     "owner": "remyar"
                 }
             ],
-            "artifactName": "${name}-Setup-${version}.${ext}",
+            "artifactName": "Setup-${version}.${ext}",
             "files": [
                 "!builds/*",
                 "!webpack*",

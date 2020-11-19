@@ -115,5 +115,8 @@ module.exports = {
     },
     addpoint : (x , y)=>{
         chart.data[0].addTo("dataPoints" , { x , y});
+    },
+    redraw : ()=>{
+        chart.render();
     }
 }

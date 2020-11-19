@@ -13,48 +13,54 @@
 </head>
 
 <body>
-    <div class="container-fluid">
-        <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-    </div>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm" style="text-align: center;">
-                <canvas id="rpmEngine"></canvas>
-            </div>
-            <div class="col-sm" style="text-align: center;">
-                <canvas id="advanceSpark"></canvas>
-            </div>
-            <div class="col-sm" style="text-align: center;">
-                <canvas id="dwell"></canvas>
-            </div>
-        </div>
 
+    <div id="loader" class="container-fluid" style="position: absolute; top: 50%; text-align: center;">
+        <div class="spinner-border text-primary" role="status"></div> 
     </div>
-    <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-5">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Nombre de cylindres</label>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">Un</option>
-                        <option value="2">Deux</option>
-                        <option value="3">Trois</option>
-                        <option value="4">Quatre</option>
-                        <option value="5">Cinq</option>
-                        <option value="6">Six</option>
-                    </select>
+
+    <div id="appRoot" class="container-fluid" style="display: none;">
+        <div class="container-fluid">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm" style="text-align: center;">
+                    <canvas id="rpmEngine"></canvas>
+                </div>
+                <div class="col-sm" style="text-align: center;">
+                    <canvas id="advanceSpark"></canvas>
+                </div>
+                <div class="col-sm" style="text-align: center;">
+                    <canvas id="dwell"></canvas>
                 </div>
             </div>
-            <div class="col-sm">
 
+        </div>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-5">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">Nombre de cylindres</label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect01">
+                            <option selected>Choose...</option>
+                            <option value="1">Un</option>
+                            <option value="2">Deux</option>
+                            <option value="3">Trois</option>
+                            <option value="4">Quatre</option>
+                            <option value="5">Cinq</option>
+                            <option value="6">Six</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm">
+
+                </div>
             </div>
         </div>
-
     </div>
 </body>
 <script src="./app.js"></script>
