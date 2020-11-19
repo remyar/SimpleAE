@@ -105,7 +105,7 @@ jobs:
           
       - name: Bump Version
         run: |
-          npm version 1.0.${BUILD_NUMBER}
+          npm version 1.0.${{env.BUILD_NUMBER}}
           
       - name: Run npm install for SimpleAE 
         run: |
