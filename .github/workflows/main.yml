@@ -22,13 +22,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         
-      - name: Set up Python
-        uses: actions/setup-python@v1
+      #- name: Set up Python
+       # uses: actions/setup-python@v1
         
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install platformio   
+     # - name: Install dependencies
+      #  run: |
+       #   python -m pip install --upgrade pip
+       #   pip install platformio   
             
       - name: Generate build number
         uses: einaregilsson/build-number@v3 
@@ -58,37 +58,37 @@ jobs:
           echo ::set-env name=SIMPLEAE_EXE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.exe
           echo ${{env.TIME}} ${{env.F_TIME}}
       
-      - name: Run PlatformIO for SimpleAE 
-        run: |
-          cd ./SOFT_ARDUINO/
-          platformio run -e nanoatmega328
+ #     - name: Run PlatformIO for SimpleAE 
+ #       run: |
+ #         cd ./SOFT_ARDUINO/
+  #        platformio run -e nanoatmega328
       
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
-          tag: ${{env.RELEASE_VERSION}}
-          asset_name: ${{env.SIMPLEAE_FIRMWARE_NAME}}
-          overwrite: true
-          body: "This is my release text"
+ #     - name: Upload binaries to release
+ #       uses: svenstaro/upload-release-action@v2
+ #       env:
+ #         ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+ #       with:
+ #         repo_token: ${{secrets.GITHUB_TOKEN}}
+ #         file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
+  #        tag: ${{env.RELEASE_VERSION}}
+   #       asset_name: ${{env.SIMPLEAE_FIRMWARE_NAME}}
+   #       overwrite: true
+   #       body: "This is my release text"
         
-      - name: Bump Version
-        run: |
-          cd ./SOFT_PC/
-          npm version 1.0.${{env.BUILD_NUMBER}}
+   #   - name: Bump Version
+   #     run: |
+   #       cd ./SOFT_PC/
+   #       npm version 1.0.${{env.BUILD_NUMBER}}
           
-      - name: Run npm install for SimpleAE 
-        run: |
-          cd ./SOFT_PC/
-          npm install
+   #   - name: Run npm install for SimpleAE 
+   #     run: |
+   #       cd ./SOFT_PC/
+   #       npm install
           
-      - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          release: true
-          app_root: ./SOFT_PC/
-          package_root: ./SOFT_PC/
-          github_token: ${{ secrets.github_token }}
+   #   - name: Build/release Electron app
+   #     uses: samuelmeuli/action-electron-builder@v1
+   #     with:
+   #       release: true
+   #       app_root: ./SOFT_PC/
+   #       package_root: ./SOFT_PC/
+   #       github_token: ${{ secrets.github_token }}
