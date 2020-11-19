@@ -46,7 +46,7 @@ jobs:
         env:
           TIME: "${{ steps.current-time.outputs.time }}"
           F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-        run: echo ${{env:TIME}} ${{env:F_TIME}}
+        run: echo ${{env.TIME}} ${{env.F_TIME}}
       
       - name: Print new build number
         env:
