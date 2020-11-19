@@ -21,20 +21,15 @@
         "directories": {
             "output": "build"
         },
-        "publish": [
-            {
-              "provider": "github",
-              "releaseType": "release",
-              "publishAutoUpdate": true
-            }
-        ],
         "win": {
             "icon": "res/icons/kicad_tools.ico",
             "publish": [
                 {
                     "provider": "github",
                     "repo": "SimpleAE",
-                    "owner": "remyar"
+                    "owner": "remyar",
+                    "releaseType": "release",
+                    "publishAutoUpdate": true
                 }
             ],
             "artifactName": "Setup-${version}.${ext}",
