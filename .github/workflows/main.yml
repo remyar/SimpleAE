@@ -103,6 +103,10 @@ jobs:
           echo ::set-env name=RELEASE_VERSION::v1.0.${BUILD_NUMBER}
           echo ::set-env name=SIMPLEAE_EXE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.exe
           
+      - name: Bump Version
+        run: |
+          npm version 1.0.${BUILD_NUMBER}
+          
       - name: Run npm install for SimpleAE 
         run: |
           cd ./SOFT_PC/
