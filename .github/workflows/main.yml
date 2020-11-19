@@ -44,10 +44,11 @@ jobs:
       
       - name: Use current time
         id: current-time2
-        env:
-          TIME: "${{ steps.current-time.outputs.time }}"
-          F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-        run: echo ${{env.TIME}} ${{env.F_TIME}}
+    #    env:
+    #      TIME: "${{ steps.current-time.outputs.time }}"
+    #      F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
+        run: |
+          echo ::set-output name=TIME::${{ steps.current-time.outputs.time }}
       
       - name: Print new build number
         env:
@@ -57,7 +58,7 @@ jobs:
           echo ::set-env name=RELEASE_VERSION::v1.0.${BUILD_NUMBER}
           echo ::set-env name=SIMPLEAE_FIRMWARE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.hex
           echo ::set-env name=SIMPLEAE_EXE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.exe
-          echo ${{steps.current-time2.env.TIME}}
+          echo ${{steps.current-time2.outputs.TIME}}
       
  #     - name: Run PlatformIO for SimpleAE 
  #       run: |
