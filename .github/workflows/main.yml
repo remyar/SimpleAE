@@ -15,36 +15,42 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        
       - name: Set up Python
         uses: actions/setup-python@v1
+        
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install platformio     
+          pip install platformio   
+            
       - name: Generate build number
         uses: einaregilsson/build-number@v2 
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           token: ${{secrets.github_token}}
+      
       - name: Get current time
         uses: 1466587594/get-current-time@v1
         id: current-time
         with:
           format: DDMMYYYY-HHmmss
           utcOffset: "+02:00"
+      
       - name: Use current time
         env:
           TIME: "${{ steps.current-time.outputs.time }}"
           F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         run: echo $TIME $F_TIME
+      
       - name: Print new build number
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -52,57 +58,13 @@ jobs:
           echo "Build number is $BUILD_NUMBER"
           echo ::set-env name=RELEASE_VERSION::v1.0.${BUILD_NUMBER}
           echo ::set-env name=SIMPLEAE_FIRMWARE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.hex
+          echo ::set-env name=SIMPLEAE_EXE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.exe
+      
       - name: Run PlatformIO for SimpleAE 
         run: |
           cd ./SOFT_ARDUINO/
           platformio run -e nanoatmega328
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
-          tag: ${{ env.RELEASE_VERSION }}
-          asset_name: ${{ env.SIMPLEAE_FIRMWARE_NAME }}
-          overwrite: true
-          body: "This is my release text"
-          
-  build_PC:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
-    
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '12.19.0'
-      - name: Generate build number
-        uses: einaregilsson/build-number@v2 
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        with:
-          token: ${{secrets.github_token}}
-      - name: Get current time
-        uses: 1466587594/get-current-time@v1
-        id: current-time
-        with:
-          format: DDMMYYYY-HHmmss
-          utcOffset: "+02:00"
-      - name: Use current time
-        env:
-          TIME: "${{ steps.current-time.outputs.time }}"
-          F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        run: echo $TIME $F_TIME
-      - name: Print new build number
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        run: | 
-          echo "Build number is $BUILD_NUMBER"
-          echo ::set-env name=RELEASE_VERSION::v1.0.${BUILD_NUMBER}
-          echo ::set-env name=SIMPLEAE_EXE_NAME::SimpleAE_1.0.${BUILD_NUMBER}_${{ steps.current-time.outputs.formattedTime }}.exe
-          
+      
       - name: Bump Version
         run: |
           cd ./SOFT_PC/
@@ -120,3 +82,13 @@ jobs:
           app_root: ./SOFT_PC/
           package_root: ./SOFT_PC/
           github_token: ${{ secrets.github_token }}
+      
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
+          tag: ${{ env.RELEASE_VERSION }}
+          asset_name: ${{ env.SIMPLEAE_FIRMWARE_NAME }}
+          overwrite: true
+          body: "This is my release text"
