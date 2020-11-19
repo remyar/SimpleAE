@@ -32,8 +32,6 @@ jobs:
             
       - name: Generate build number
         uses: einaregilsson/build-number@v3 
-        env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           token: ${{secrets.github_token}}
       
@@ -48,8 +46,7 @@ jobs:
         env:
           TIME: "${{ steps.current-time.outputs.time }}"
           F_TIME: "${{ steps.current-time.outputs.formattedTime }}"
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-        run: echo $TIME $F_TIME
+        run: echo ${{env:TIME}} ${{env:F_TIME}}
       
       - name: Print new build number
         env:
@@ -72,7 +69,7 @@ jobs:
         with:
           repo_token: ${{secrets.GITHUB_TOKEN}}
           file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
-          tag: ${{env.RELEASE_VERSION}}
+          tag: ${RELEASE_VERSION}}
           asset_name: ${{env.SIMPLEAE_FIRMWARE_NAME}}
           overwrite: true
           body: "This is my release text"
