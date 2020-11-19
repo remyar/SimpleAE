@@ -20,6 +20,13 @@ template <class T> int EEPROM_readAnything(int ee, T &value)
 
 void MEMORY_Init(void)
 {
+  /*  for ( int i = 0 ; i < 128 ; i++ ){
+        if ( i%16 == 0){
+            Serial.println();
+        }        
+        Serial.print(EEPROM.read(i));
+        Serial.print(" ");
+    }*/
 }
 
 uint8_t MEMORY_ReadByte(uint16_t address)

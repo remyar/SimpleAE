@@ -1,10 +1,11 @@
 
+let chart = undefined;
 
 module.exports = {
     draw: () => {
 
         //Better to construct options first and then pass it as a parameter
-        var chart = new CanvasJS.Chart("chartContainer",
+        chart = new CanvasJS.Chart("chartContainer",
             {
                 axisX: {
                     minimum: 0,
@@ -86,7 +87,7 @@ module.exports = {
                     clearTimeout(timerId);
                     timerId = setTimeout(function () {
                         if (selected != null) {
-                            chart.data[0].dataPoints[selected].y = yValue;
+                            chart.data[0].dataPoints[selected].y = Math.max(Math.min(yValue,90),0);
                             chart.render();
                         }
                     }, 0);
@@ -108,5 +109,11 @@ module.exports = {
                 }
             }
         });
+    },
+    clear : () => {
+        chart.data[0].set("dataPoints", []);
+    },
+    addpoint : (x , y)=>{
+        chart.data[0].addTo("dataPoints" , { x , y});
     }
 }

@@ -1,4 +1,5 @@
 #include "./bobine.h"
+#include "./courbe.h"
 
 static bool sparkState = true;
 
@@ -14,6 +15,7 @@ void ISR_Bobine(void)
     {
         GPIO_BOBINE_OFF();
         GPIO_BUILTIN_LED_OFF(); //Temoin//Moteur arrete, preserver la bobine, couper le courant
+        COURBE_TaskRun(0);
     }
     sparkState = false;              //Remet  le detecteur d'étincelle à 0
     Timer1.initialize(SECU_BOBINE);
@@ -30,5 +32,6 @@ void BOBINE_SetState(bool state){
 }
 
 void BOBINE_SetTime( unsigned long  Davant_rech){
+    Timer1.attachInterrupt(ISR_Bobine);
     Timer1.initialize(Davant_rech);
 }

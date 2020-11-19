@@ -20,10 +20,9 @@
 //================================================================================================//
 //                                            DEFINES                                             //
 //================================================================================================//
-#define NB_CYLINDRES 2      //Nombre de cylindres, moteur 4 temps.Multiplier par 2 pour moteur 2 temps
 #define POSITION_CAPTEUR 45 //Position en degrès vilo du capteur( Hall ou autre ) AVANT le PMH étincelle du cylindre N°1
 #define SECU_BOBINE 1000000 //Securite: bobine coupee à l'arret apres Dsecu µs
-#define DWELL_MODE  3           //Dwell = 2 pour alimentation de la bobine seulement trech ms par cycle, 3ms par exemple
+#define DWELL_MODE  1           //Dwell = 2 pour alimentation de la bobine seulement trech ms par cycle, 3ms par exemple
                                 //Obligatoire pour bobine 'electronique'   de faible resistance: entre 2 et 0.5ohm.Ajuster  trech
                                 //Dwell = 3 pour simuler un allumage à vis platinées: bobine alimentée 2/3 (66%) du cycle
                                 //Dwell = 4 pour optimiser l'étincelle à haut régime.La bobine chauffe un peu plus.
