@@ -59,20 +59,20 @@ jobs:
           echo ${{steps.env.outputs.SIMPLEAE_FIRMWARE_NAME}}
           echo ${{steps.env.outputs.SIMPLEAE_EXE_NAME}}
       
-      - name: Run PlatformIO for SimpleAE 
-        run: |
-          cd ./SOFT_ARDUINO/
-          platformio run -e nanoatmega328
+   #   - name: Run PlatformIO for SimpleAE 
+   #     run: |
+   #       cd ./SOFT_ARDUINO/
+   #       platformio run -e nanoatmega328
       
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{secrets.GITHUB_TOKEN}}
-          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
-          tag: ${{steps.env.outputs.RELEASE_VERSION}}
-          asset_name: ${{steps.env.outputs.SIMPLEAE_FIRMWARE_NAME}}
-          overwrite: true
-          body: "This is my release text"
+    #  - name: Upload binaries to release
+    #    uses: svenstaro/upload-release-action@v2
+    #    with:
+    #      repo_token: ${{secrets.GITHUB_TOKEN}}
+    #      file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
+    #      tag: ${{steps.env.outputs.RELEASE_VERSION}}
+    #      asset_name: ${{steps.env.outputs.SIMPLEAE_FIRMWARE_NAME}}
+    #      overwrite: true
+    #      body: "This is my release text"
        
       - name: Bump Version
         run: |
