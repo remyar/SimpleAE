@@ -67,6 +67,8 @@ jobs:
       
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
