@@ -31,7 +31,7 @@ jobs:
           pip install platformio   
             
       - name: Generate build number
-        uses: einaregilsson/build-number@v2 
+        uses: einaregilsson/build-number@v3 
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
