@@ -70,10 +70,10 @@ jobs:
         env:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: true
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{secrets.GITHUB_TOKEN}}
           file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
-          tag: ${{ env.RELEASE_VERSION }}
-          asset_name: ${{ env.SIMPLEAE_FIRMWARE_NAME }}
+          tag: ${{env.RELEASE_VERSION}}
+          asset_name: ${{env.SIMPLEAE_FIRMWARE_NAME}}
           overwrite: true
           body: "This is my release text"
         
