@@ -65,6 +65,16 @@ jobs:
           cd ./SOFT_ARDUINO/
           platformio run -e nanoatmega328
       
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
+          tag: ${{ env.RELEASE_VERSION }}
+          asset_name: ${{ env.SIMPLEAE_FIRMWARE_NAME }}
+          overwrite: true
+          body: "This is my release text"
+        
       - name: Bump Version
         run: |
           cd ./SOFT_PC/
@@ -82,13 +92,3 @@ jobs:
           app_root: ./SOFT_PC/
           package_root: ./SOFT_PC/
           github_token: ${{ secrets.github_token }}
-      
-      - name: Upload binaries to release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file:  ./SOFT_ARDUINO/.pio/build/nanoatmega328/firmware.hex
-          tag: ${{ env.RELEASE_VERSION }}
-          asset_name: ${{ env.SIMPLEAE_FIRMWARE_NAME }}
-          overwrite: true
-          body: "This is my release text"
