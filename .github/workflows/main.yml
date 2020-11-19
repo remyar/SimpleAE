@@ -87,7 +87,7 @@ jobs:
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
-          release: true
+          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
           app_root: ./SOFT_PC/
           package_root: ./SOFT_PC/
           github_token: ${{ secrets.github_token }}
