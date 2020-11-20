@@ -15,27 +15,27 @@
 <body>
 
     <div id="loader" class="container-fluid" style="position: absolute; top: 50%; text-align: center;">
-        <div class="spinner-border text-primary" role="status"></div> 
+        <div class="spinner-border text-primary" role="status"></div>
     </div>
 
     <div id="appRoot" class="container-fluid" style="display: none;">
         <div class="container-fluid">
-            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-        </div>
-        <br>
-        <div class="container-fluid">
             <div class="row">
-                <div class="col-sm" style="text-align: center;">
+                <div class="col-4" style="text-align: center;">
                     <canvas id="rpmEngine"></canvas>
                 </div>
-                <div class="col-sm" style="text-align: center;">
+                <div class="col-4" style="text-align: center;">
                     <canvas id="advanceSpark"></canvas>
                 </div>
-                <div class="col-sm" style="text-align: center;">
+                <div class="col-4" style="text-align: center;">
                     <canvas id="dwell"></canvas>
                 </div>
             </div>
 
+        </div>
+        <br>
+        <div class="container-fluid">
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
         </div>
         <br>
         <div class="container-fluid">
@@ -56,8 +56,17 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm">
-
+            </div>
+        </div>
+        <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                </div>
+                <div class="col-4">
+                    <button type="button" class="btn btn-danger btn-block">Sauvegarder les paramétres</button>
+                </div>
+                <div class="col-4">
                 </div>
             </div>
         </div>
