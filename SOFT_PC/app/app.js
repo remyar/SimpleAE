@@ -3,6 +3,16 @@ const { RadialGauge } = require('canvas-gauges');
 const chart = require('./chart');
 const compc = require('./compc');
 
+window.onresize = async () => {
+    var bw = $(this).width();
+    var bh2 = $(this).height();
+    var gaugeElement = $('#rpmEngine');
+    if(gaugeElement.length == 1){
+        gaugeElement[0].setAttribute('data-width', bw);
+        gaugeElement[0].setAttribute('data-height', bh2);
+    }
+}
+
 window.onload = async () => {
     chart.draw();
 

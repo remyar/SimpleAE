@@ -19,56 +19,62 @@
     </div>
 
     <div id="appRoot" class="container-fluid" style="display: none;">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-4" style="text-align: center;">
-                    <canvas id="rpmEngine"></canvas>
-                </div>
-                <div class="col-4" style="text-align: center;">
-                    <canvas id="advanceSpark"></canvas>
-                </div>
-                <div class="col-4" style="text-align: center;">
-                    <canvas id="dwell"></canvas>
-                </div>
-            </div>
 
-        </div>
-        <br>
-        <div class="container-fluid">
-            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-        </div>
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-5">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">Nombre de cylindres</label>
-                        </div>
-                        <select class="custom-select" id="inputGroupSelect01">
-                            <option selected>Choose...</option>
-                            <option value="1">Un</option>
-                            <option value="2">Deux</option>
-                            <option value="3">Trois</option>
-                            <option value="4">Quatre</option>
-                            <option value="5">Cinq</option>
-                            <option value="6">Six</option>
-                        </select>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="Jauges-tab" data-toggle="tab" aria-controls="Jauges" role="tab" href="#Jauges" aria-selected="true">Jauges</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="settings-tab" data-toggle="tab" aria-controls="settings" role="tab" href="#settings" aria-selected="false">Paramétres</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent" style="border-right: 1px solid #dee2e6; border-left: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6; padding: 16px;">
+            <div class="tab-pane fade show active" id="Jauges" role="tabpanel" aria-labelledby="Jauges-tab">
+                <div class="row">
+                    <div class="col-4" style="text-align: center;">
+                        <canvas id="rpmEngine"></canvas>
+                    </div>
+                    <div class="col-4" style="text-align: center;">
+                        <canvas id="advanceSpark"></canvas>
+                    </div>
+                    <div class="col-4" style="text-align: center;">
+                        <canvas id="dwell"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
-        <br>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-4">
+            <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                <br>
+                <div class="row">
+                    <div class="col-5">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Nombre de cylindres</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01">
+                                <option selected>Choose...</option>
+                                <option value="1">Un</option>
+                                <option value="2">Deux</option>
+                                <option value="3">Trois</option>
+                                <option value="4">Quatre</option>
+                                <option value="5">Cinq</option>
+                                <option value="6">Six</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <button type="button" class="btn btn-danger btn-block">Sauvegarder les paramétres</button>
-                </div>
-                <div class="col-4">
+                <br>
+                <div class="row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-danger btn-block">Sauvegarder les paramétres</button>
+                    </div>
+                    <div class="col-4">
+                    </div>
                 </div>
             </div>
+           
         </div>
     </div>
 </body>

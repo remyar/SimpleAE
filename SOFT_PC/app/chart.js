@@ -16,7 +16,7 @@ module.exports = {
                     maximum: 90
                 },
                 title: {
-                    text: "Try dragging column to reposition dataPoint",
+                    text: "Courbe d'avance",
                 },
                 dataPointMaxWidth: 20,
                 data: [

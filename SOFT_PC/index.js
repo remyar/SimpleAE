@@ -15,8 +15,9 @@ let mainWindow
 async function  createWindow() {
 
     let serial = await Serial.findInterface();
-    await Serial.open(serial.path);
-   
+    if ( serial ){
+        await Serial.open(serial.path);
+    }
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 1024, height: 768, webPreferences: {
@@ -25,11 +26,17 @@ async function  createWindow() {
         },
     });
 
-    Serial.process(mainWindow);
+    if ( serial ){
+        Serial.process(mainWindow);
+        mainWindow.setTitle("Online Mode");
+    } else {
+        mainWindow.setTitle("Demonstration Mode");
+    }
 
+   
     mainWindow.setMenu(null);
 
-    mainWindow.maximize();
+    //mainWindow.maximize();
 
     // and load the index.html of the app.
     mainWindow.loadURL(`file://${__dirname}/app/index.html`)

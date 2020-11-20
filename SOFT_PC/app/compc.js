@@ -1,3 +1,5 @@
+const { data } = require('jquery');
+
 const ipc = require('electron').ipcRenderer;
 
 let _idxRx = 0;
@@ -9,9 +11,10 @@ let advanceGauge = undefined;
 let dwellGauge = undefined;
 
 let config = {
-    nbCylindres : undefined,
-    Na : [],
-    Anga : [],
+    simulationMode: false,
+    nbCylindres: undefined,
+    Na: [],
+    Anga: [],
 };
 function _getBytes(nbBytes) {
     let value = 0;
@@ -23,9 +26,34 @@ function _getBytes(nbBytes) {
     return value;
 }
 
-function _putByte(val){
+function _putByte(val) {
     _dataTx.push(val);
     _idxTx++;
+}
+
+function _checkAndInitConfig() {
+    if ( config.nbCylindres === undefined && config.Na.length === 0 && config.Anga.length === 0 ){
+        config.simulationMode = true;
+    }
+
+    if (config.nbCylindres == undefined || config.nbCylindres > 6) {
+        config.nbCylindres = 4;
+    }
+
+    if (config.Na.length === 0) {
+        for (let i = 0; i < 16; i++) {
+            config.Na.push(65535);
+        }
+    }
+
+    if (config.Anga.length === 0) {
+        for (let i = 0; i < 16; i++) {
+            config.Anga.push(65535);
+        }
+    }
+
+    config.Na = config.Na.map((val, i) => val === 65535 ? i * 500 : val);
+    config.Anga = config.Anga.map((val, i) => val === 65535 ? i * 5 : val);
 }
 
 module.exports = {
@@ -59,27 +87,15 @@ module.exports = {
                             }
                             break;
                         }
-                        case (1):{
+                        case (1): {
                             config.nbCylindres = _getBytes(1);
-                            if ( config.nbCylindres == undefined || config.nbCylindres > 6 ){
-                                config.nbCylindres = 4;
-                            }
-
                             config.Na = [];
                             config.Anga = [];
-                            for ( let i = 0 ; i < 16 ; i++ ){
-                                let _v = _getBytes(2);
-                                if ( _v === 65535 ){
-                                    _v = ( i*500);
-                                }
-                                config.Na.push(_v);
+                            for (let i = 0; i < 16; i++) {
+                                config.Na.push(_getBytes(2));
                             }
-                            for ( let i = 0 ; i < 16 ; i++ ){
-                                let _v = _getBytes(2);
-                                if ( _v === 65535 ){
-                                    _v = ( i*5);
-                                }
-                                config.Anga.push(_v);
+                            for (let i = 0; i < 16; i++) {
+                                config.Anga.push(_getBytes(2));
                             }
                             break;
                         }
@@ -90,19 +106,19 @@ module.exports = {
             });
         });
     },
-    setRpmGauge : (gauge ) =>{
+    setRpmGauge: (gauge) => {
         rpmGauge = gauge;
         rpmGauge.draw();
     },
-    setAdvanceGauge : (gauge ) =>{
+    setAdvanceGauge: (gauge) => {
         advanceGauge = gauge;
         advanceGauge.draw();
     },
-    setDwellGauge : (gauge ) =>{
+    setDwellGauge: (gauge) => {
         dwellGauge = gauge;
         dwellGauge.draw();
     },
-    readConfig : async () => {
+    readConfig: async () => {
         _idxTx = 0;
         _dataTx = [];
 
@@ -110,18 +126,19 @@ module.exports = {
         _putByte(3);
         _putByte(1);
 
-        return new Promise((resolve)=>{
-            
-            setTimeout(()=>{
+        return new Promise((resolve) => {
+
+            setTimeout(() => {
                 ipc.send('tx_data', _dataTx);
-                setTimeout(()=>{
+                setTimeout(() => {
+                    _checkAndInitConfig();
                     resolve(config);
-                },500);
-            },1500);
+                }, 500);
+            }, 1500);
 
         });
     },
-    changeNbCylindres : ( value )=>{
+    changeNbCylindres: (value) => {
         _dataTx = [];
 
         _putByte(0);
