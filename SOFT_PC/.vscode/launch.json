@@ -1,10 +1,17 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    // Utilisez IntelliSense pour en savoir plus sur les attributs possibles.
+    // Pointez pour afficher la description des attributs existants.
+    // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "enableCRAWorkaround": true
+        },
         {
             "name": "Debug Main Process",
             "type": "node",
@@ -14,11 +21,12 @@
             "windows": {
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
             },
+            "runtimeArgs": [
+                "${workspaceRoot}/main.js"
+            ],
             "args" : ["."],
             "outputCapture": "std"
         },
-        
-
         {
             "name": "Debug Renderer Process",
             "type": "chrome",
@@ -28,18 +36,11 @@
                 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
             },
             "runtimeArgs": [
-                "${workspaceRoot}/index.js",
+                "${workspaceRoot}/main.js",
                 "--remote-debugging-port=9222"
             ],
             "webRoot": "${workspaceRoot}",
-            "sourceMaps": true,
-            "sourceMapPathOverrides": {
-                "webpack:///*": "${workspaceRoot}/*",
-                "webpack://*": "${workspaceRoot}/*",
-                "webpack-internal:///*": "${workspaceRoot}/*",
-                "webpack-internal://*": "${workspaceRoot}/*"
-            },
-            "preLaunchTask": "npm: webpack"
+            "sourceMaps": true
         },
     ]
 }

@@ -52,13 +52,18 @@ void COMPC_TaskInit(void)
 
 void COMPC_TaskRun(void)
 {
-    if ((millis() - _ms) >= 50)
+    if ((millis() - _ms) >= 500)
     {
-        _putUint16(15);
-        _putUint8(0);
-        _putUint32((uint32_t)COURBE_GetRpm());   //-- rpm engine
-        _putUint32((uint32_t)COURBE_GetDelay()); //-- advance
-        _putUint32(56);                          //-- dwell
+        _putUint8('[');
+        _putUint8('I');
+        _putUint8('V');
+        _putUint8(':');
+        _putString(String(COURBE_GetRpm()));   //-- rpm engine
+        _putUint8(':');
+        _putString(String((COURBE_GetDelay()))); //-- advance
+        _putUint8(':');
+        _putString(String(56));                         //-- dwell
+        _putUint8(']');                        
         _ms = millis();
     }
 

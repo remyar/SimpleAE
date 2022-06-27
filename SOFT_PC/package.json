@@ -1,56 +1,97 @@
 {
-    "name": "soft_pc",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "electron main.js",
-        "webpack": "echo \"Error: no test specified\" && exit 0",
-        "electron:rebuild": "electron-builder install-app-deps",
-        "dist": "electron-builder"
+  "name": "soft_pc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:electron": "electron main.js",
+    "start": "craco  start",
+    "build": "craco  build",
+    "dist": "electron-builder",
+    "test": "craco  test"
+  },
+  "author": "ARNAUDIN Rémy",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^19.0.6",
+    "electron-builder": "^23.1.0"
+  },
+  "build": {
+    "asar": true,
+    "directories": {
+      "output": "out"
     },
-    "author": "",
-    "license": "ISC",
-    "devDependencies": {
-        "electron": "^10.1.5",
-        "electron-rebuild": "^2.3.2",
-        "electron-builder": "^22.9.1"
-    },
-    "build": {
-        "asar": false,
-        "directories": {
-            "output": "build"
-        },
-        "win": {
-            "icon": "res/icons/kicad_tools.ico",
-            "publish": [
-                {
-                    "provider": "github",
-                    "repo": "SimpleAE",
-                    "owner": "remyar",
-                    "releaseType": "release",
-                    "publishAutoUpdate": true
-                }
-            ],
-            "artifactName": "Setup-${version}.${ext}",
-            "files": [
-                "!builds/*",
-                "!webpack*",
-                "!src/*",
-                "!*.log",
-                "!node_modules/*",
-                "!dev-app-update.yml",
-                "!.vscode/*"
-            ]
+    "win": {
+      "icon": "public/favicon.ico",
+      "publish": [
+        {
+          "provider": "github",
+          "repo": "SimpleAE",
+          "owner": "remyar",
+          "releaseType": "release",
+          "publishAutoUpdate": true
         }
-    },
-    "dependencies": {
-        "bootstrap": "^4.5.3",
-        "canvas-gauges": "^2.1.7",
-        "canvasjs": "^1.8.3",
-        "jquery": "^3.5.1",
-        "jqwidgets-framework": "^11.0.0",
-        "popper.js": "^1.16.1",
-        "serialport": "^9.0.2"
+      ],
+      "artifactName": "Setup-${version}.${ext}",
+      "files": [
+        "!out/*",
+        "!webpack*",
+        "!src/*",
+        "!*.log",
+        "!node_modules/*",
+        "!dev-app-update.yml",
+        "!.vscode/*",
+        "!.github/*",
+        "!*.md",
+        "!public/*"
+      ]
     }
+  },
+  "dependencies": {
+    "@craco/craco": "^5.8.0",
+    "@electron/remote": "^2.0.8",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.87",
+    "@mui/material": "^5.8.5",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.2.1",
+    "canvas-gauges": "^2.1.7",
+    "electron-fetch": "^1.7.4",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.8",
+    "electron-logger": "0.0.3",
+    "electron-store": "^8.0.2",
+    "electron-updater": "^5.0.5",
+    "formik": "^2.2.9",
+    "html2json": "^1.0.2",
+    "isomorphic-fetch": "^3.0.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.25",
+    "lodash": "^4.17.21",
+    "notistack": "^2.0.5",
+    "react": "^18.2.0",
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^18.2.0",
+    "react-input-mask": "^2.0.4",
+    "react-intl": "^6.0.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.1",
+    "serialport": "^10.4.0",
+    "yup": "^0.32.11"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

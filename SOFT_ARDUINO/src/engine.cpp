@@ -42,7 +42,9 @@ void ENGINE_TaskInit(void)
     BOBINE_Init();
 
     nbCylindres = MEMORY_ReadByte(ADDR_NB_CYLINDRES);
-
+    if ( nbCylindres > 8 ){
+        nbCylindres = 2;
+    }
     attachInterrupt(digitalPinToInterrupt(GPIO_PIN_CIBLE), ISR_handle, CAPTEUR_STATE_ON ? FALLING : RISING);
 
     NT = (float)120000000 / (float)nbCylindres; //Facteur de conversion Nt/mn moteur, Tµs entre deux PMH étincelle
