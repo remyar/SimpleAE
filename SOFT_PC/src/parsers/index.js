@@ -27,6 +27,19 @@ export default createAction(async (message, { getState, extra }) => {
                 globalState.device = {...device};
                 break;
             }
+            case "RC" : {
+                let device = {
+                    advanceTable : []
+                }
+                let values = message.split(':').map((el) => parseInt(el));
+                device.advanceTable = [...values];
+                
+                globalState.device = {
+                    ...globalState.device,
+                    ...device
+                }
+                break;
+            }
             /*
             case "ID":
                 //-- on récupere les infos des differents devices en relation avec le dongle

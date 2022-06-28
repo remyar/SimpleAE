@@ -10,21 +10,21 @@ class Chart extends Component {
 
         this.state = {
             data: [
-                { x: 0, y: 0 },
-                { x: 500, y: 16 },
-                { x: 1000, y: 10 },
-                { x: 1500, y: 16 },
-                { x: 2000, y: 18 },
-                { x: 2500, y: 22 },
-                { x: 3000, y: 26 },
-                { x: 3500, y: 28 },
-                { x: 4000, y: 28 },
-                { x: 4500, y: 28 },
-                { x: 5000, y: 29 },
-                { x: 5500, y: 30 },
-                { x: 6000, y: 32 },
-                { x: 6500, y: 32 },
-                { x: 7000, y: 32 }
+                { x: 0, y: props.data[0] || 0},
+                { x: 500, y: props.data[1] || 0},
+                { x: 1000, y:  props.data[2] || 0 },
+                { x: 1500, y:  props.data[3] || 0 },
+                { x: 2000, y:  props.data[4] || 0 },
+                { x: 2500, y:  props.data[5] || 0 },
+                { x: 3000, y:  props.data[6] || 0 },
+                { x: 3500, y:  props.data[7] || 0 },
+                { x: 4000, y:  props.data[8] || 0 },
+                { x: 4500, y:  props.data[9] || 0 },
+                { x: 5000, y:  props.data[10] || 0 },
+                { x: 5500, y:  props.data[11] || 0 },
+                { x: 6000, y:  props.data[12] || 0 },
+                { x: 6500, y:  props.data[13] || 0 },
+                { x: 7000, y:  props.data[14] || 0 }
             ]
         }
 
@@ -113,6 +113,28 @@ class Chart extends Component {
 
     render() {
 
+
+        this._state = {
+            data: [
+                { x: 0, y: this.props.data[0] || 0},
+                { x: 500, y: this.props.data[1] || 0},
+                { x: 1000, y:  this.props.data[2] || 0 },
+                { x: 1500, y:  this.props.data[3] || 0 },
+                { x: 2000, y:  this.props.data[4] || 0 },
+                { x: 2500, y:  this.props.data[5] || 0 },
+                { x: 3000, y:  this.props.data[6] || 0 },
+                { x: 3500, y:  this.props.data[7] || 0 },
+                { x: 4000, y:  this.props.data[8] || 0 },
+                { x: 4500, y:  this.props.data[9] || 0 },
+                { x: 5000, y:  this.props.data[10] || 0 },
+                { x: 5500, y:  this.props.data[11] || 0 },
+                { x: 6000, y:  this.props.data[12] || 0 },
+                { x: 6500, y:  this.props.data[13] || 0 },
+                { x: 7000, y:  this.props.data[14] || 0 }
+            ]
+        }
+
+
         const options = {
             animationEnabled: true,
             //exportEnabled: true,
@@ -133,7 +155,7 @@ class Chart extends Component {
             data: [
                 {
                     type: "line",
-                    dataPoints: this.state.data
+                    dataPoints: (this._state.data || [])
                 }
             ],
 

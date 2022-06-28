@@ -1,18 +1,24 @@
 
 //*****************************************************************************
 
-#include "./Low-Level/board.h"
 #include "./compc/COM_PC.h"
-
-#include "./engine.h"
+#include "./aepl.h"
 
 ////////////////////////////////////////////////////////////////////////
 void setup() ///////////////
 /////////////////////////////////////////////////////////////////////////
 {
-    BOARD_Init();  
+    AEsetup();
 
-    ENGINE_TaskInit();
+    //-- init table d'avance
+   /* for ( int i = 0 ; i < 16 ; i++){
+        Anga[i] = MEMORY_ReadUnsignedInt(32 + (i * 2));
+        if ( Anga[i] < 0 ){
+            Anga[i] = 0;
+        }
+    }*/
+
+
     COMPC_TaskInit();
 
 }
@@ -21,6 +27,7 @@ void setup() ///////////////
 void loop() ////////////////
 ////////////////////////////////////////////////////////////////////////////
 {
+    AEloop();
     COMPC_TaskRun();
 }
 

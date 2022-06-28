@@ -1,52 +1,19 @@
-#include "../Low-Level/board.h"
-#include "../Low-Level/Serial.h"
 #include "./COM_PC.h"
-#include "../courbe.h"
-#include "../engine.h"
-#include <CircularBuffer.h>
+#include "../aepl.h"
 
-CircularBuffer<uint8_t, 256> bufferTx;
-String _sCmd;
+String _sCmdTx = "";
+String _sCmd = "";
 
 static unsigned long _ms = millis();
 
-template <class T>
-int _writeAnything(const T &value)
-{
-    const uint8_t *p = (const uint8_t *)(const void *)&value;
-    p += sizeof(value) - 1;
-    uint8_t i;
-    for (i = 0; i < sizeof(value); i++)
-        bufferTx.push(*p--);
-    return i;
-}
-
 void _putString(String val)
 {
-    for (uint16_t i = 0; i < val.length(); i++)
-    {
-        _writeAnything((uint8_t)val[i]);
-    }
-}
-
-void _putUint8(uint8_t val)
-{
-    _writeAnything(val);
-}
-
-void _putUint16(uint16_t val)
-{
-    _writeAnything(val);
-}
-
-void _putUint32(uint32_t val)
-{
-    _writeAnything(val);
+    _sCmdTx += val;
 }
 
 void COMPC_TaskInit(void)
 {
-    bufferTx.clear();
+    _sCmdTx = "";
     _sCmd = "";
 }
 
@@ -70,7 +37,7 @@ void _processCommand(void)
             _putString("[RC");
             for ( int i = 0 ; i < 16 ; i++){
                 _putString(":");
-                _putString(String(MEMORY_ReadUnsignedInt(32+i)));
+                _putString(String(Anga[i]));
             }
             _putString("]");
 
@@ -79,7 +46,7 @@ void _processCommand(void)
             //-- lecture courbe avance
             _putString("[RNBC");
             _putString(":");
-            _putString(String(ENGINE_GetNbCylindres()));
+       //     _putString(String(ENGINE_GetNbCylindres()));
             _putString("]");
 
         }
@@ -96,34 +63,20 @@ void _processCommand(void)
 
 void COMPC_TaskRun(void)
 {
-  /*  if ((millis() - _ms) >= 500)
+    if (Serial.available())
     {
-        _putUint8('[');
-        _putUint8('I');
-        _putUint8('V');
-        _putUint8(':');
-        _putString(String(COURBE_GetRpm())); //-- rpm engine
-        _putUint8(':');
-        _putString(String((COURBE_GetDelay()))); //-- advance
-        _putUint8(':');
-        _putString(String(56)); //-- dwell
-        _putUint8(']');
-        _ms = millis();
-    }*/
-
-    if (SERIAL_Available())
-    {
-        _sCmd += (char)SERIAL_Getc();
+        _sCmd += (char)Serial.read();
     }
 
     if (_sCmd.endsWith("]"))
     {
+        _sCmdTx = "";
         _processCommand();
     }
   
-    if (bufferTx.size() > 0)
+    if(_sCmdTx.length() > 0)
     {
-        SERIAL_Putc(bufferTx.first());
-        bufferTx.shift();
+        Serial.print(_sCmdTx);
+        _sCmdTx = "";
     }
 }

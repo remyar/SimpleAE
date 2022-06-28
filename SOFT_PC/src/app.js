@@ -29,12 +29,25 @@ function App(props) {
 
     const [drawerState, setDrawerState] = useState(false);
 
+    async function _Sleep(val){
+        return new Promise((resolve)=>{
+            setTimeout(()=>{
+                resolve();
+            } , val)
+        })
+    }
     async function fetchData(){
-        let _r = await props.dispatch(actions.serial.findInterface());
-        if ( _r.system.ports.find(el => el.path === settings.port)){
-            await props.dispatch(actions.serial.open(settings.port));
-        } else {
-            props.snackbar.error(intl.formatMessage({ id: 'interface.not.detected' }));
+        try{
+            let _r = await props.dispatch(actions.serial.findInterface());
+            if ( _r.system.ports.find(el => el.path === settings.port)){
+                await props.dispatch(actions.serial.open(settings.port));
+                await _Sleep(5000);
+                await props.dispatch(actions.device.readCourbe());
+            } else {
+                props.snackbar.error(intl.formatMessage({ id: 'interface.not.detected' }));
+            }
+        }catch(err){
+            props.snackbar.error(err.message);
         }
     }
 

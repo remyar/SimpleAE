@@ -1,14 +1,12 @@
 #ifndef _MEMORY_H_
 #define _MEMORY_H_
 
-#include "./board.h"
 #include <EEPROM.h>
 
-#define ADDR_TR_MIN     0
-#define SIZE_TR_MIN     64
+#define ADDR_TR_MIN 0
+#define SIZE_TR_MIN 64
 
-#define ADDR_NB_CYLINDRES   64
-
+#define ADDR_NB_CYLINDRES 64
 
 void MEMORY_Init(void);
 

@@ -32,7 +32,6 @@ function HomePage(props) {
 
         <Box sx={{ paddingTop: '32px' }}>
 
-       
             <Grid container spacing={2}>
 
                 <Grid item xs={4} sx={{ textAlign: 'center' }}>
@@ -59,10 +58,12 @@ function HomePage(props) {
                     <ReactRadialGauge
                         units='°'
                         title='Advance'
-                        value={device?.advance}
+                        value={parseFloat(device?.advance)}
                         minValue={0}
                         maxValue={50}
+                        animation={false}
                         width={300}
+                        valueDec={0}
                         height={300}
                         majorTicks={['0', '5', '15', '20', '25', '30', '35', '40', '45', '50']}
                         minorTicks={2}
@@ -73,10 +74,12 @@ function HomePage(props) {
                     <ReactRadialGauge
                         units='ms'
                         title='Dwell'
-                        value={device?.dwell}
+                        value={parseFloat(device?.dwell/1000)}
                         minValue={0}
                         maxValue={50}
+                        animation={false}
                         width={300}
+                        valueDec={2}
                         height={300}
                         majorTicks={['0', '5', '15', '20', '25', '30', '35', '40', '45', '50']}
                         minorTicks={2}
@@ -88,7 +91,7 @@ function HomePage(props) {
             <Grid container spacing={2}>
                 <Grid item xs={2} />
                 <Grid item xs={8} sx={{ textAlign: 'center' }}>
-                    <Chart />
+                    <Chart data={device?.advanceTable || []}/>
                 </Grid>
                 <Grid item xs={2} />
             </Grid>

@@ -31,8 +31,21 @@ module.exports = {
             }
 
             try {
-                client = new SerialPort({ path: value, autoOpen: false, baudRate: 115200, rtscts: true });
-                await client.open();
+                client = new SerialPort({ path: value, autoOpen: false, baudRate: 115200, rtscts: false });
+
+                function _open(){
+                    return new Promise((resolve,reject)=>{
+                        client.open((err)=>{
+                            if ( err ){
+                                reject(err);
+                            } else {
+                                resolve();
+                            }
+                        });
+                    });
+                }
+
+                await _open();
 
                 client.on('data', (data) => {
                     received.push(data);
