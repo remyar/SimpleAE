@@ -58,6 +58,7 @@
 void SERIAL_Init(void)
 {
     Serial.begin(115200);
+    Serial.println(__FILE__); Serial.println(__DATE__); Serial.println(__TIME__);
 }
 
 void SERIAL_PutString(String str){

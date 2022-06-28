@@ -38,8 +38,12 @@ void COURBE_Init()
     RDzero = float(POSITION_CAPTEUR) / float(AngleCibles);
 
     for ( int i = 0 ; i < 16 ; i++ ){
-        Na[i] = (float)MEMORY_ReadUnsignedInt(i);
-        Anga[i] = (float)MEMORY_ReadUnsignedInt(32+i);
+       // Na[i] = (float)MEMORY_ReadUnsignedInt(i);
+
+        float val = (float)MEMORY_ReadUnsignedInt(32+i);
+        if ( val < 360.0){
+            Anga[i] = val;
+        }
     }
 
     for (uint8_t i = 1; Na[i] != 0; i++) //i pour les C1,C2 et Tc
