@@ -19,10 +19,14 @@ function SettingsPage(props) {
     const settings = props.globalState.settings;
     const system = props.globalState.system;
     const device = props.globalState.device;
+    const intl = props.intl;
 
     const [serialPorts, setSerialPorts] = useState(system.ports);
+    const [nbCylindres, setNbCylindres] = useState(undefined);
 
-    const intl = props.intl;
+    if ((nbCylindres == undefined) && (device?.nbCylindres != undefined)) {
+        setNbCylindres(device?.nbCylindres);
+    }
 
     async function fetchData() {
         try {
@@ -80,9 +84,15 @@ function SettingsPage(props) {
                         variant="standard"
                         labelId="select-detection-label"
                         id="select-detection"
-                        value={device?.nbCylindres}
+                        value={nbCylindres}
                         onChange={async (event) => {
-                            device.nbCylindres = event.target.value;
+                            try {
+                               // await props.dispatch(actions.device.writeNbCylindres(event.target.value));
+                                //device.nbCylindres = event.target.value;
+                                setNbCylindres(event.target.value);
+                            } catch (err) {
+
+                            }
                         }}
                         label="Detection"
                         sx={{ width: '100%' }}
@@ -94,7 +104,7 @@ function SettingsPage(props) {
                     </Select>
                 </Grid>
             </Grid>
-           
+
         </Box>
         <Box sx={{ paddingTop: '32px' }}>
             <Grid container sx={{ paddingTop: "16px" }}>
@@ -103,11 +113,11 @@ function SettingsPage(props) {
                     <Button variant="contained" onClick={async () => {
                         try {
                             await props.dispatch(actions.serial.open(settings?.port));
-                            //            await props.dispatch(actions.electron.SetDebugMode(settings.debugMode));
+                            await props.dispatch(actions.device.writeNbCylindres(nbCylindres));
+                            //await props.dispatch(actions.electron.SetDebugMode(settings.debugMode));
                         } catch (err) {
                             props.snackbar.error(intl.formatMessage({ id: err }));
                         }
-                        props.navigation.goBack()
                     }}>{props.intl.formatMessage({ id: "settings.validate" })}</Button>
                 </Grid>
             </Grid>

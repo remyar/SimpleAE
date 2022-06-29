@@ -41,8 +41,9 @@ function App(props) {
             let _r = await props.dispatch(actions.serial.findInterface());
             if ( _r.system.ports.find(el => el.path === settings.port)){
                 await props.dispatch(actions.serial.open(settings.port));
-                await _Sleep(5000);
+                await _Sleep(3000);
                 await props.dispatch(actions.device.readCourbe());
+                await props.dispatch(actions.device.readNbCylindres());
             } else {
                 props.snackbar.error(intl.formatMessage({ id: 'interface.not.detected' }));
             }

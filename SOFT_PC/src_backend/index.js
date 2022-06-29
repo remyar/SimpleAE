@@ -26,8 +26,13 @@ module.exports = {
 
         ipcMain.on('OPEN_SERIAL_PORT', async (event, value) => {
 
-            if (client != undefined) {
-                client.close();
+            if (client != undefined ){
+                if ( client.path != value) {
+                    client.close();
+                } else {
+                    event.returnValue = true;
+                    return;
+                }
             }
 
             try {
@@ -51,6 +56,7 @@ module.exports = {
                     received.push(data);
                     while (!received.isFinished()) {
                         const message = received.handleData();
+                        console.log("SERIAL Read : " , message + "]");
                         mainWindow && mainWindow.webContents.send('ON_DATA_SERIAL_PORT', message + "]");
                     }
                 });
@@ -67,6 +73,7 @@ module.exports = {
             if (client != undefined) {
                 try {
                     await client.write(value);
+                    console.log("SERIAL Write : " , value);
                     event.returnValue = true;
                 } catch (err) {
                     event.returnValue = false;

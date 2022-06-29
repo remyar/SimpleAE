@@ -2,5 +2,6 @@
     "url.index" : "Home",
     "url.index.desc" : "Home",
     "url.settings":"Settings",
-    "url.settings.desc" : "Settings"
+    "url.settings.desc" : "Settings",
+    "home.save" : "Enregistrer"
 }

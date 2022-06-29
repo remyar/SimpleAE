@@ -20,11 +20,17 @@ import actions from '../../actions';
 
 function HomePage(props) {
 
-    const [displayLoader, setDisplayLoader] = useState(false);
-
     const settings = props.globalState.settings;
     const system = props.globalState.system;
     const device = props.globalState.device;
+    const intl = props.intl;
+
+    const [displayLoader, setDisplayLoader] = useState(false);
+    const [advanceTable, setAdvanceTable] = useState(undefined);
+
+    if ((advanceTable == undefined) && (device?.advanceTable != undefined) && (device?.advanceTable?.length > 0)) {
+        setAdvanceTable([...device?.advanceTable]);
+    }
 
     return <Box>
 
@@ -38,7 +44,7 @@ function HomePage(props) {
                     <ReactRadialGauge
                         units='Rpm x 10'
                         title='RPM'
-                        value={device?.rpm/10}
+                        value={device?.rpm / 10}
                         minValue={0}
                         maxValue={700}
                         width={300}
@@ -63,7 +69,7 @@ function HomePage(props) {
                         maxValue={50}
                         animation={false}
                         width={300}
-                        valueDec={0}
+                        valueDec={2}
                         height={300}
                         majorTicks={['0', '5', '15', '20', '25', '30', '35', '40', '45', '50']}
                         minorTicks={2}
@@ -74,7 +80,7 @@ function HomePage(props) {
                     <ReactRadialGauge
                         units='ms'
                         title='Dwell'
-                        value={parseFloat(device?.dwell/1000)}
+                        value={parseFloat(device?.dwell / 1000)}
                         minValue={0}
                         maxValue={50}
                         animation={false}
@@ -91,7 +97,19 @@ function HomePage(props) {
             <Grid container spacing={2}>
                 <Grid item xs={2} />
                 <Grid item xs={8} sx={{ textAlign: 'center' }}>
-                    <Chart data={device?.advanceTable || []}/>
+                    <Chart data={advanceTable || []} onChange={(idx, value) => {
+                        advanceTable[idx] = value;
+                        setAdvanceTable(advanceTable);
+                    }} />
+                </Grid>
+                <Grid item xs={2} />
+            </Grid>
+            <Grid container spacing={2}>
+                <Grid item xs={2} />
+                <Grid item xs={8} sx={{ textAlign: 'center' }}>
+                    <Button variant="contained" onClick={()=>{
+                        props.dispatch(actions.device.writeCourbe(advanceTable));
+                    }}>{intl.formatMessage({ id: 'home.save' })}</Button>
                 </Grid>
                 <Grid item xs={2} />
             </Grid>

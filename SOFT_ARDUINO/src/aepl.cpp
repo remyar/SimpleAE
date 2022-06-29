@@ -15,7 +15,7 @@
 int Na[] = {0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4200, 4600, 5100, 7000, 0}; // t/*mn vilo
 
 //__2__Anga [] degrés d'avance vilebrequin correspondant ( peut croitre ou decroitre)
-int Anga[] = {0, 16, 10, 16, 18, 22, 26, 28, 28, 28, 29, 30, 32, 0}; // Ralenti en "V"
+int Anga[14] = {0, 16, 10, 16, 18, 22, 26, 28, 28, 28, 29, 30, 32, 0}; // Ralenti en "V"
 // int Anga[] =    {0, 0 , 0 , 0  , 12,    14,  26,    28,  28,   28,   29,    30,   32,  0};
 //__3__Ncyl Nombre de cylindres, moteur 4 temps.Multiplier par 2 pour moteur 2 temps
 int Ncyl = 2;
@@ -68,7 +68,7 @@ const int Nr = 0; // Consigne de ralenti régulé en t/mn,800 par exemple. Si 0 
 
 //***********************Multi-éticelles******************
 // Si multi-étincelle désiré jusqu'à N_multi, modifier ces deux lignes
-const int Multi = 1;      // 1 pour multi-étincelles, 0 sinon
+const int Multi = 0;      // 1 pour multi-étincelles, 0 sinon
 const int N_multi = 1300; // 1300 t/mn pour 4 cylindres par exemple
 // Surtout utile pour eviter de noyer les bougies à bas régime
 
@@ -191,11 +191,11 @@ void AEsetup() ///////////////
 /////////////////////////////////////////////////////////////////////////
 {
     Serial.begin(115200); // Ligne suivante, 3 Macros du langage C
-   // Serial.println(__FILE__);
-  //  Serial.println(__DATE__);
-  //  Serial.println(__TIME__);
-    BT.begin(115200); // Vers module BlueTooth HC05/06
-    BT.flush();       // A tout hasard
+                          // Serial.println(__FILE__);
+                          //  Serial.println(__DATE__);
+                          //  Serial.println(__TIME__);
+    BT.begin(115200);     // Vers module BlueTooth HC05/06
+    BT.flush();           // A tout hasard
     BT.println(__FILE__);
     BT.println(__DATE__);
     BT.println(__TIME__);
@@ -286,10 +286,10 @@ void Etincelle() //////////
         }
         Timer1.initialize(Davant_rech); // Attendre Drech µs avant de retablire le courant dans la bobine
     }
-    UneEtin = 1; // Pour signaler que le moteur tourne à l'isr_GestionIbob().
-    Tst_Pot();   // Voir si un potar connecté pour decaler la courbe
- //   if (T > Ttrans)
- //       Smartphone(); // Si pas trop vite gérer le sphone
+    UneEtin = 1;  // Pour signaler que le moteur tourne à l'isr_GestionIbob().
+    Tst_Pot();    // Voir si un potar connecté pour decaler la courbe
+                  //   if (T > Ttrans)
+    Smartphone(); // Si pas trop vite gérer le sphone
 }
 void Genere_multi()       //////////
 {                         // L'etincelle principale a juste été générée
@@ -468,13 +468,13 @@ void Smartphone() ///////////////////////////////////////////
 {                 // Si  N < Ntrans on affiche en Bluetooth le regime, l'avance et possibilité de decaler ou changer de courbe
     static long ms = millis();
 
-    if ( (millis() - ms) > 75 )
+    if ((millis() - ms) > 75)
     { // Afficher vitesse, avance et N° de courbe
 
         Serial.print("[IV:");
         Serial.print(NT / T); // Afficher N et avance sur smartphone
         Serial.print(":");
-        Serial.print(AngleCapteur - (D + tcor) * AngleCibles / T); // Afficher avance
+        Serial.print((float)((float)AngleCapteur - (float)((D + tcor) * (float)AngleCibles) / (float)T)); // Afficher avance
         Serial.print(":");
         Serial.print(Davant_rech);
         Serial.print("]");
@@ -487,8 +487,8 @@ void Smartphone() ///////////////////////////////////////////
         Serial.print("Decalage ");
         Serial.println(delAv);
         Serial.println();*/
-         ms = millis();   // RAZ du compteur d'affichages
-        Lect_delAv(); // Voir si decalage ou basculement de courbe demandée au sphone
+        ms = millis(); // RAZ du compteur d'affichages
+        Lect_delAv();  // Voir si decalage ou basculement de courbe demandée au sphone
     }
 }
 void Tst_BT()
@@ -539,8 +539,16 @@ void Tst_Pot() ///////////
 void AEloop() ////////////////
 ////////////////////////////////////////////////////////////////////////////
 {
-    while (digitalRead(Cible) == !CaptOn)
-        ;                  // Attendre front actif de la cible
+    long _ms = millis();
+    while (digitalRead(Cible) == !CaptOn) // Attendre front actif de la cible
+    {
+        if ( Mot_OFF == 1 ){
+            if ( (millis() - _ms) >= 250 ){
+                return;
+            }
+        }
+    }
+
     T = micros() - prec_H; // front actif, arrivé calculer T
     prec_H = micros();     // heure du front actuel qui deviendra le front precedent
     if (Mot_OFF == 1)

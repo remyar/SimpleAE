@@ -2,6 +2,7 @@
 #define _AEPL_H_
 
 extern int Anga[];
+extern int Ncyl;
 
 void Init();
 void RegRalenti();

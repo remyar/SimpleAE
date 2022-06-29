@@ -6,34 +6,50 @@ export default createAction(async (message, { getState, extra }) => {
     let globalState = getState();
 
     try {
+        console.log("message ", message);
         message = message.replace('[', '').replace(']', '');
 
-        let topic = message[0] + message[1];
-        message = message.replace(topic, '').replace(':','');
+        let topic = message.split(':')[0];
+
+        console.log("message ", topic);
+
+        message = message.replace(topic, '').replace(':', '');
+        console.log("value ", message);
 
         switch (topic) {
 
-            case "IV":{
+            case "IV": {
                 //-- Immediate Value
                 let values = message.split(':');
                 let device = {
-                    rpm : values[0],
-                    advance : values[1],
-                    dwell : values[2],
+                    rpm: values[0],
+                    advance: values[1],
+                    dwell: values[2],
                 };
                 if (globalState.device == undefined) {
-                    globalState.device = { };
+                    globalState.device = {};
                 }
-                globalState.device = {...device};
+                globalState.device = { ...device };
                 break;
             }
-            case "RC" : {
+            case "RC": {
                 let device = {
-                    advanceTable : []
+                    advanceTable: []
                 }
                 let values = message.split(':').map((el) => parseInt(el));
                 device.advanceTable = [...values];
-                
+
+                globalState.device = {
+                    ...globalState.device,
+                    ...device
+                }
+                break;
+            }
+            case "RNBC": {
+                let device = {
+                    nbCylindres: message,
+                }
+
                 globalState.device = {
                     ...globalState.device,
                     ...device

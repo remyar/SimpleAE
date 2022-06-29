@@ -8,26 +8,6 @@ class Chart extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            data: [
-                { x: 0, y: props.data[0] || 0},
-                { x: 500, y: props.data[1] || 0},
-                { x: 1000, y:  props.data[2] || 0 },
-                { x: 1500, y:  props.data[3] || 0 },
-                { x: 2000, y:  props.data[4] || 0 },
-                { x: 2500, y:  props.data[5] || 0 },
-                { x: 3000, y:  props.data[6] || 0 },
-                { x: 3500, y:  props.data[7] || 0 },
-                { x: 4000, y:  props.data[8] || 0 },
-                { x: 4500, y:  props.data[9] || 0 },
-                { x: 5000, y:  props.data[10] || 0 },
-                { x: 5500, y:  props.data[11] || 0 },
-                { x: 6000, y:  props.data[12] || 0 },
-                { x: 6500, y:  props.data[13] || 0 },
-                { x: 7000, y:  props.data[14] || 0 }
-            ]
-        }
-
         this.mouseDown = false;
         this.selected = null;
         this.xSnapDistance;
@@ -52,7 +32,7 @@ class Chart extends Component {
 
             if ((this.xValue >= dps[i].x - this.xSnapDistance && this.xValue <= dps[i].x + this.xSnapDistance) &&
                 (this.yValue >= dps[i].y - this.ySnapDistance && this.yValue <= dps[i].y + this.ySnapDistance)) {
-                if (this.mouseDown) {
+                if (this.mouseDown && (i != 0)) {
                     this.selected = i;
                     break;
                 }
@@ -82,6 +62,7 @@ class Chart extends Component {
 
             if (this.selected != null) {
                 this.chart.data[0].dataPoints[this.selected].y = this.yValue;
+                this.props.onChange && this.props.onChange(this.selected , this.yValue);
                 this.chart.render();
                 this.mouseDown = false;
             }
@@ -95,7 +76,7 @@ class Chart extends Component {
                 this.timerId = setTimeout(() => {
                     if (this.selected != null) {
                         this.chart.data[0].dataPoints[this.selected].y = this.yValue;
-                        this.setState({})
+                        this.props.onChange && this.props.onChange(this.selected , this.yValue);
                         this.chart.render();
                     }
                 }, 0);
@@ -125,12 +106,10 @@ class Chart extends Component {
                 { x: 3000, y:  this.props.data[6] || 0 },
                 { x: 3500, y:  this.props.data[7] || 0 },
                 { x: 4000, y:  this.props.data[8] || 0 },
-                { x: 4500, y:  this.props.data[9] || 0 },
-                { x: 5000, y:  this.props.data[10] || 0 },
-                { x: 5500, y:  this.props.data[11] || 0 },
-                { x: 6000, y:  this.props.data[12] || 0 },
-                { x: 6500, y:  this.props.data[13] || 0 },
-                { x: 7000, y:  this.props.data[14] || 0 }
+                { x: 4200, y:  this.props.data[9] || 0 },
+                { x: 4600, y:  this.props.data[10] || 0 },
+                { x: 5100, y:  this.props.data[11] || 0 },
+                { x: 7000, y:  this.props.data[12] || 0 }
             ]
         }
 
@@ -144,7 +123,7 @@ class Chart extends Component {
             },
             axisY: {
                 minimum: 0,
-                maximum: 90
+                maximum: 50
             },
             axisX: {
                 minimum: 0,
