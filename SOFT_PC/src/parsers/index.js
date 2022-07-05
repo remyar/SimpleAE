@@ -6,15 +6,15 @@ export default createAction(async (message, { getState, extra }) => {
     let globalState = getState();
 
     try {
-        console.log("message ", message);
+       // console.log("message ", message);
         message = message.replace('[', '').replace(']', '');
 
         let topic = message.split(':')[0];
 
-        console.log("message ", topic);
+       // console.log("message ", topic);
 
         message = message.replace(topic, '').replace(':', '');
-        console.log("value ", message);
+       // console.log("value ", message);
 
         switch (topic) {
 

@@ -44,6 +44,9 @@ function App(props) {
                 await _Sleep(3000);
                 await props.dispatch(actions.device.readCourbe());
                 await props.dispatch(actions.device.readNbCylindres());
+                setInterval(()=>{
+                    props.dispatch(actions.device.readValues());
+                },200)
             } else {
                 props.snackbar.error(intl.formatMessage({ id: 'interface.not.detected' }));
             }

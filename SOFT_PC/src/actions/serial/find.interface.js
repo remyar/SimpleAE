@@ -8,7 +8,7 @@ export async function findInterface({ extra, getState }) {
 
         let data = ipcRenderer.sendSync('GET_ALL_SERIAL_PORT');
         let _d = data.filter((d) => {
-            if (d.vendorId == '1A86' && d.productId == '7523') {
+            if ((d.vendorId == '1A86' && d.productId == '7523') || (d.pnpId.startsWith("BTHENUM") == true)) {
                 return d;
             }
         });

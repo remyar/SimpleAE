@@ -32,7 +32,7 @@ const int CaptOn = 0;
 // OBLIGATOIRE pour bobine 'electronique'   de faible resistance: entre 2 et 0.5ohm.Ajuster  trech. Sinon elle brule!
 // Dwell = 3 pour simuler un allumage à vis platinées: bobine alimentée 2/3 (66%) du cycle.Option à prendre par défaut
 // Dwell = 4 pour optimiser l'étincelle à haut régime.La bobine chauffe un peu plus.
-const int Dwell = 3;
+const int Dwell = 2;
 
 //***************************************************************
 //**********************GENERALITES *****************************
@@ -125,7 +125,7 @@ const int unsigned long Dsecu = 1000000; // Securite: bobine coupee à l'arret a
 #include "TimerOne.h"
 #include <SoftwareSerial.h>
 // Pour module Bluetooth HC05ou 06
-SoftwareSerial BT(10, 11); // Creer une entrée/sortie série par logiciel sur D10(RX sur HC) et D11(TX sur HC)
+//SoftwareSerial BT(7, 6); // Creer une entrée/sortie série par logiciel sur D7(RX sur HC) et D6(TX sur HC)
 //***********************Variables du sketch************************************
 #define Bob 4            // Sortie D4 vers bobine.En option, on peut connecter une Led avec R=330ohms vers la masse
 #define Cible 2          // Entrée sur D2 du capteur, avec R PullUp
@@ -194,13 +194,31 @@ void AEsetup() ///////////////
                           // Serial.println(__FILE__);
                           //  Serial.println(__DATE__);
                           //  Serial.println(__TIME__);
-    BT.begin(115200);     // Vers module BlueTooth HC05/06
-    BT.flush();           // A tout hasard
-    BT.println(__FILE__);
-    BT.println(__DATE__);
-    BT.println(__TIME__);
-    BT.println("***Bonjour*****************************************");
-    BT.println("******************************************************");
+    //BT.begin(115200);     // Vers module BlueTooth HC05/06
+   // BT.flush();           // A tout hasard
+   // BT.println(__FILE__);
+   // BT.println(__DATE__);
+   // BT.println(__TIME__);
+   // BT.println("***Bonjour*****************************************");
+   // BT.println("******************************************************");
+
+/*
+Serial.print("AT");
+delay(1000);
+while(Serial.available()){
+    Serial.print(Serial.read());
+}
+Serial.print("AT+BAUD8");
+delay(1000);
+while(Serial.available()){
+    Serial.print(Serial.read());
+}
+
+
+    while(true){}
+ */   
+
+
     pinMode(Cible, INPUT_PULLUP);    // Entrée front du capteur sur D2
     pinMode(Bob, OUTPUT);            // Sortie sur D4 controle du courant dans la bobine
     pinMode(Pot, INPUT_PULLUP);      // Entrée pour potard 10kohms, optionnel
@@ -289,7 +307,8 @@ void Etincelle() //////////
     UneEtin = 1;  // Pour signaler que le moteur tourne à l'isr_GestionIbob().
     Tst_Pot();    // Voir si un potar connecté pour decaler la courbe
                   //   if (T > Ttrans)
-    Smartphone(); // Si pas trop vite gérer le sphone
+//    Smartphone(); // Si pas trop vite gérer le sphone
+COMPC_TaskRun();
 }
 void Genere_multi()       //////////
 {                         // L'etincelle principale a juste été générée
@@ -359,9 +378,9 @@ void Lect_delAv() ///////////////////Uniquement si T> Ttrans, typique N <3000t/m
 // Lecture du smartphone
 {                              // Avec 7,8 ou 9 on change de courbe, sinon delta de +1 deg à +6 deg  ou negatif 11 à 16, 0 pour courbe non modifiée
     Ligne = "";                // On y accumule les car reçus du sphone
-    while (BT.available() > 0) // Nb de car dans le buffer venant du sphone
+    while (Serial.available() > 0) // Nb de car dans le buffer venant du sphone
     {
-        carLu = BT.read(); // oui il y a un car au moins, mais on filtre 1 à 9 seulement, on se méfie
+        carLu = Serial.read(); // oui il y a un car au moins, mais on filtre 1 à 9 seulement, on se méfie
         if ((carLu >= 48) && (carLu <= 57))
             Ligne = Ligne + carLu; // si entre 0 et 9
     }
@@ -384,7 +403,7 @@ void Lect_delAv() ///////////////////Uniquement si T> Ttrans, typique N <3000t/m
                 if (delAv >= 11)
                     delAv = 10.0 - delAv;                  // par ex  on entre 12, pour -2°
                 modC1 = float(delAv) / float(AngleCibles); // pour le calcul du delai avant étincelle
-                BT.println(delAv);                         // Afficher sur sphone
+                Serial.println(delAv);                         // Afficher sur sphone
             }
             else
                 delAv = 0;
@@ -468,7 +487,7 @@ void Smartphone() ///////////////////////////////////////////
 {                 // Si  N < Ntrans on affiche en Bluetooth le regime, l'avance et possibilité de decaler ou changer de courbe
     static long ms = millis();
 
-    if ((millis() - ms) > 75)
+    if ((millis() - ms) > 50)
     { // Afficher vitesse, avance et N° de courbe
 
         Serial.print("[IV:");
@@ -498,22 +517,22 @@ void Tst_BT()
     Serial.println("Bonjour ");
     Serial.println("Le caractere entre sur l'Android doit se retrouver ci dessous");
     //***************Vers module
-    BT.println(" ");
-    BT.println(" ");
-    BT.println("Bonjour sur Android");
-    BT.println(" ");
-    BT.println("HC05, la led doit clignoter 2 flash, 1s Off, 2flash...");
-    BT.println(" ");
-    BT.println("HC06, led On fixe");
-    BT.println("");
-    BT.println("Entrer un caractere ");
-    BT.println("S'il se retouve sur le PC, tout va bien...");
+    Serial.println(" ");
+    Serial.println(" ");
+    Serial.println("Bonjour sur Android");
+    Serial.println(" ");
+    Serial.println("HC05, la led doit clignoter 2 flash, 1s Off, 2flash...");
+    Serial.println(" ");
+    Serial.println("HC06, led On fixe");
+    Serial.println("");
+    Serial.println("Entrer un caractere ");
+    Serial.println("S'il se retouve sur le PC, tout va bien...");
     while (1)
     {
-        if (BT.available()) // Car pret en entrée sur Serie soft?
+        if (Serial.available()) // Car pret en entrée sur Serie soft?
         {
-            BTdata = BT.read(); // oui, le clavier Android BT a émis un car
-            BT.println(" ");    // Aller à la ligne sur sphone
+            BTdata = Serial.read(); // oui, le clavier Android BT a émis un car
+            Serial.println(" ");    // Aller à la ligne sur sphone
 
             // **************Vers PC
             Serial.write(BTdata); // ecrire le car sur le PC

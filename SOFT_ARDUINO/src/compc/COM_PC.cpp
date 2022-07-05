@@ -24,7 +24,7 @@ void _processCommand(void)
         _sCmd.remove(0, 1);
     }
 
-    if (_sCmd.startsWith("[") == true)
+    while (_sCmd.startsWith("[") == true)
     {
         _sCmd.remove(0, 1);
 
@@ -62,8 +62,9 @@ void _processCommand(void)
 
             Anga[13] = _sCmd.toInt();
 
-            for ( int i = 0 ; i < 14 ; i++){
-                MEMORY_WriteUnsignedInt(ADDR_ADV + (i * 2) , Anga[i]);
+            for (int i = 0; i < 14; i++)
+            {
+                MEMORY_WriteUnsignedInt(ADDR_ADV + (i * 2), Anga[i]);
             }
 
             Init();
@@ -84,14 +85,15 @@ void _processCommand(void)
             _putString(":");
             _putString(String(Ncyl));
             _putString("]");
-        } 
-        else if ( _sCmd.startsWith("WNBC")){
+        }
+        else if (_sCmd.startsWith("WNBC"))
+        {
             //-- ecriture nombre de cylindres
             _sCmd.remove(0, 5);
 
             Ncyl = _sCmd.toInt();
 
-            MEMORY_WriteUnsignedInt(ADDR_NB_CYLINDRES,Ncyl);
+            MEMORY_WriteUnsignedInt(ADDR_NB_CYLINDRES, Ncyl);
 
             Init();
 
@@ -99,7 +101,16 @@ void _processCommand(void)
             _putString(":");
             _putString(String(Ncyl));
             _putString("]");
-
+        }
+        else if (_sCmd.startsWith("RV"))
+        {
+            _putString("[IV:");
+            _putString(String(NT / T)); // Afficher N et avance sur smartphone
+            _putString(":");
+            _putString(String((float)((float)AngleCapteur - (float)((D + tcor) * (float)AngleCibles) / (float)T))); // Afficher avance
+            _putString(":");
+            _putString(String(Davant_rech));
+            _putString("]");
         }
 
         while (_sCmd.startsWith("]") == false)
