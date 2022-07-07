@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "simple_ae")(type "KiCad")(uri "C:/_dev_/_DEV_AUTO_/SimpleAE/PCB/simple_ae.kicad_sym")(options "")(descr ""))
+)

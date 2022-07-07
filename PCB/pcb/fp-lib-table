@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "Library")(type "KiCad")(uri "C:/_dev_/_DEV_AUTO_/SimpleAE/PCB/Library.pretty")(options "")(descr ""))
+)
